@@ -55,6 +55,6 @@ The contents of `src/main/res/raw/log4j.xml` then may look as follows.
 Finally you may use log4j as usual.
 
 ```
-    Logger.getLogger("org.apache").setLevel(Level.ERROR); // You would set this via config.
-    Logger.getLogger("my.fancy.logger").error("blaaah"); // You would normally use Log.e(...)
+Logger.getLogger("org.apache").setLevel(Level.ERROR); // You would set this via config.
+Logger.getLogger("my.fancy.logger").error("blaaah"); // You would normally use Log.e(...)
 ```
