@@ -58,3 +58,7 @@ Finally you may use log4j as usual.
 Logger.getLogger("org.apache").setLevel(Level.ERROR); // You would set this via config.
 Logger.getLogger("my.fancy.logger").error("blaaah"); // You would normally use Log.e(...)
 ```
+
+## Credits
+
+The code is highly inspired by https://loune.net/2016/05/using-log4j2-2-3-with-android/ and https://github.com/loune/log4j2-android. The main advantage is that the library can be simply added to Gradle and initialized in the application `onCreate` method.
