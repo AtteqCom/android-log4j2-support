@@ -6,7 +6,6 @@ import org.apache.logging.log4j.core.config.ConfigurationSource;
 import org.apache.logging.log4j.core.impl.ContextAnchor;
 import org.apache.logging.log4j.core.selector.ContextSelector;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
@@ -20,20 +19,17 @@ public class AndroidContextSelector implements ContextSelector {
 
 	private static final LoggerContext CONTEXT = new LoggerContext("Default");
 
-	// private static boolean isStarted = false;
-
 	private void start(LoggerContext context) {
 		InputStream stream = AndroidLog4jHelper.getConfig();
 
-		ConfigurationSource source = null;
 		try {
-			source = new ConfigurationSource(stream);
-		} catch (IOException e) {
+			ConfigurationSource source = new ConfigurationSource(stream);
+			Configuration config = org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory.getInstance()
+					.getConfiguration(source);
+			context.start(config);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Configuration config = org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory.getInstance()
-				.getConfiguration(source);
-		context.start(config);
 	}
 
 	public LoggerContext getContext(String fqcn, ClassLoader loader, boolean currentContext) {
@@ -53,13 +49,6 @@ public class AndroidContextSelector implements ContextSelector {
 		return ctx != null ? ctx : CONTEXT;
 	}
 
-	public LoggerContext locateContext(final String name, final String configLocation) {
-		if (!CONTEXT.isStarted()) {
-			start(CONTEXT);
-		}
-		return CONTEXT;
-	}
-
 	public void removeContext(final LoggerContext context) {
 	}
 
@@ -67,7 +56,7 @@ public class AndroidContextSelector implements ContextSelector {
 		if (!CONTEXT.isStarted()) {
 			start(CONTEXT);
 		}
-		final List<LoggerContext> list = new ArrayList<LoggerContext>();
+		final List<LoggerContext> list = new ArrayList<>();
 		list.add(CONTEXT);
 		return Collections.unmodifiableList(list);
 	}
