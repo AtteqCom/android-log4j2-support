@@ -26,14 +26,14 @@ public final class LogcatAppender extends AbstractAppender {
 	private final Charset UTF8_CHARSET = Charset.forName("UTF-8");
 
 	private LogcatAppender(String name, Layout<? extends Serializable> layout, Filter filter,
-			boolean ignoreExceptions) {
+						   boolean ignoreExceptions) {
 		super(name, filter, layout);
 	}
 
 	@PluginFactory
 	public static LogcatAppender createAppender(@PluginAttribute("name") String name,
-			@PluginAttribute("ignoreExceptions") boolean ignoreExceptions,
-			@PluginElement("Layout") Layout<? extends Serializable> layout, @PluginElement("Filters") Filter filter) {
+												@PluginAttribute("ignoreExceptions") boolean ignoreExceptions,
+												@PluginElement("Layout") Layout<? extends Serializable> layout, @PluginElement("Filters") Filter filter) {
 
 		if (name == null) {
 			LOGGER.error("No name provided for LogcatAppender");

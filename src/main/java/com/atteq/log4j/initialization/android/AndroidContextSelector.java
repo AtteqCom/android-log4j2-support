@@ -1,8 +1,11 @@
 package com.atteq.log4j.initialization.android;
 
+import android.util.Log;
+
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.ConfigurationSource;
+import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
 import org.apache.logging.log4j.core.impl.ContextAnchor;
 import org.apache.logging.log4j.core.selector.ContextSelector;
 
@@ -24,11 +27,12 @@ public class AndroidContextSelector implements ContextSelector {
 
 		try {
 			ConfigurationSource source = new ConfigurationSource(stream);
-			Configuration config = org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory.getInstance()
+			Configuration config = XmlConfigurationFactory
+					.getInstance()
 					.getConfiguration(source);
 			context.start(config);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e("log4j2-helper", "Can not setup log4j2.", e);
 		}
 	}
 
@@ -40,13 +44,22 @@ public class AndroidContextSelector implements ContextSelector {
 		return ctx != null ? ctx : CONTEXT;
 	}
 
-	public LoggerContext getContext(final String fqcn, final ClassLoader loader, final boolean currentContext,
-			final URI configLocation) {
+	public LoggerContext getContext(final String fqcn,
+									final ClassLoader loader,
+									final boolean currentContext,
+									final URI configLocation) {
 		if (!CONTEXT.isStarted()) {
 			start(CONTEXT);
 		}
 		final LoggerContext ctx = ContextAnchor.THREAD_CONTEXT.get();
 		return ctx != null ? ctx : CONTEXT;
+	}
+
+	public LoggerContext locateContext(final String name, final String configLocation) {
+		if (!CONTEXT.isStarted()) {
+			start(CONTEXT);
+		}
+		return CONTEXT;
 	}
 
 	public void removeContext(final LoggerContext context) {
@@ -60,4 +73,5 @@ public class AndroidContextSelector implements ContextSelector {
 		list.add(CONTEXT);
 		return Collections.unmodifiableList(list);
 	}
+
 }

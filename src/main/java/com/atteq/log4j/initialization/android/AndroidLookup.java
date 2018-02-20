@@ -13,7 +13,7 @@ import java.io.File;
 public class AndroidLookup implements StrLookup {
 	/**
 	 * Lookup the value for the key.
-	 * 
+	 *
 	 * @param key
 	 *            the key to be looked up, may be null
 	 * @return The value for the key.
@@ -44,7 +44,7 @@ public class AndroidLookup implements StrLookup {
 
 	/**
 	 * Lookup the value for the key using the data in the LogEvent.
-	 * 
+	 *
 	 * @param event
 	 *            The current LogEvent.
 	 * @param key
@@ -54,4 +54,5 @@ public class AndroidLookup implements StrLookup {
 	public String lookup(LogEvent event, String key) {
 		return lookup(key);
 	}
+
 }
